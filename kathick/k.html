@@ -1,0 +1,172 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>COLLEGE MANAGEMENT SYSTEM</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            padding: 20px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            max-width: 450px;
+            margin: auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>College Management System</h2>
+    <img src="https://upload.wikimedia.org/wikipedia/en/3/32/Thiagarajar_College_of_Engineering_logo.png" alt="tce">
+    <form onsubmit="return verify()">
+        <label for="name">ENTER STUDENT NAME:</label><br>
+        <input type="text" id="name" name="name" placeholder="Enter your name" required>
+
+        <label for="email">ENTER PERSONAL EMAIL ID:</label><br>
+        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+        <label for="event-date">Select a Date:</label>
+        <input type="date" id="event-date" name="event-date" required>
+
+
+
+        <label for="caste">ENTER CASTE:</label><br>
+        <select id="caste" name="caste" required>
+            <option value="">--Select--</option>
+            <option value="OC">OC</option>
+            <option value="BC">BC</option>
+            <option value="OBC">OBC</option>
+            <option value="ST">ST</option>
+            <option value="SC">SC</option>
+        </select>
+
+        <label for="religion">RELIGION:</label><br>
+        <select id="religion" name="religion" required>
+            <option value="">--Select--</option>
+            <option value="HINDU">HINDU</option>
+            <option value="CHRISTIAN">CHRISTIAN</option>
+            <option value="ISLAM">ISLAM</option>
+            <option value="OTHERS">OTHERS</option>
+        </select>
+
+        <label for="cutoff">ENTER CUTOFF MARKS:</label><br>
+        <input type="number" id="cutoff" name="cutoff" required>
+
+        <label for="degree">ENTER DEGREE:</label><br>
+        <select id="degree" name="degree" required>
+            <option value="">--Select--</option>
+            <option value="BE">BE</option>
+            <option value="BTECH">B.TECH</option>
+        </select>
+
+        <label for="course">COURSE:</label><br>
+        <select id="course" name="course" required>
+            <option value="">--Select--</option>
+            <option value="CSE">Computer Science (CSE)</option>
+            <option value="ECE">Electronics (ECE)</option>
+            <option value="EEE">Electrical (EEE)</option>
+            <option value="MECH">Mechanical</option>
+            <option value="CIVIL">Civil</option>
+        </select>
+
+        <input type="submit" value="Submit" onclick="verify()">
+    </form>
+   <script>
+    function verify() {
+        let name = document.getElementById("name").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let date = document.getElementById("event-date").value;
+        let caste = document.getElementById("caste").value;
+        let religion = document.getElementById("religion").value;
+        let cutoff = document.getElementById("cutoff").value;
+        let degree = document.getElementById("degree").value;
+        let course = document.getElementById("course").value;
+
+        let namePattern = /^[A-Za-z\s]{3,}$/;
+        if (!namePattern.test(name)) {
+            alert("Please enter a valid student name (min 3 letters).");
+            return false;
+        }
+
+        let emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            alert("Please enter a valid email address.");
+            return false;
+        }
+
+        if (date === "") {
+            alert("Please select a date.");
+            return false;
+        }
+
+        if (caste === "") {
+            alert("Please select your caste.");
+            return false;
+        }
+
+        if (religion === "") {
+            alert("Please select your religion.");
+            return false;
+        }
+
+        if (cutoff === "" || cutoff < 0 || cutoff > 200.0) {
+            alert("Please enter valid cutoff marks (0–200).");
+            return false;
+        }
+
+        if (degree === "") {
+            alert("Please select a degree.");
+            return false;
+        }
+
+        if (course === "") {
+            alert("Please select a course.");
+            return false;
+        }
+
+        window.confirm("Registration successful!");
+        return true;
+    }
+</script>
+
+
+</body>
+</html>
+
