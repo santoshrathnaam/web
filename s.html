@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Staff Enrollment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSje3pU0RoLzBVW54KPW-OpadyoGTrq_ZdPXw&s);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 400px;
+            margin: 40px auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 8px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-top: 12px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: green;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: darkgreen;
+        }
+
+        #x {
+            margin-top: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Staff Enrollment</h2>
+
+    <form>
+        <label>Name</label>
+        <input type="text" id="name" placeholder="Enter your name">
+
+        <label>Age</label>
+        <input type="number" id="age" placeholder="Enter your age">
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="Enter your email">
+
+        <label>Degree</label>
+        <select id="degree">
+            <option value="">Select</option>
+            <option>M.E</option>
+            <option>B.E</option>
+            <option>B.Tech</option>
+            <option>M.Tech</option>
+            <option>PhD</option>
+        </select>
+
+        <label>Phone Number</label>
+        <input type="tel" id="phone" placeholder="Enter your phone number">
+
+        <label>Years of Experience</label>
+        <input type="number" id="yoe" placeholder="Enter years of experience">
+
+        <label>Specialization</label>
+        <select id="special">
+            <option>Machine Learning</option>
+            <option>IoT</option>
+            <option>Data Science</option>
+            <option>AI</option>
+            <option>Data Analytics</option>
+        </select>
+
+        <label>Caste</label>
+        <select id="caste">
+            <option>BC</option>
+            <option>MBC</option>
+            <option>ST</option>
+            <option>OC</option>
+            <option>SC</option>
+        </select>
+
+        <label>Religion</label>
+        <select id="religion">
+            <option>Hindu</option>
+            <option>Christian</option>
+            <option>Muslim</option>
+            <option>Others</option>
+        </select>
+
+        <button type="button" onclick="check()">Submit</button>
+        <p id="x"></p>
+    </form>
+</div>
+
+<script>
+function check() {
+    let name = document.getElementById("name").value.trim();
+    let age = Number(document.getElementById("age").value);
+    let email = document.getElementById("email").value.trim();
+    let degree = document.getElementById("degree").value;
+
+    let msg = document.getElementById("x");
+
+    if (!name || !email || !degree || age === 0) {
+        msg.textContent = "Please fill all required fields";
+        msg.style.color = "orange";
+        return;
+    }
+
+    if (age >= 25) {
+        msg.textContent = "Registration successful";
+        msg.style.color = "green";
+
+        // STORE STAFF DATA
+        let staff = {
+            name: name,
+            age: age,
+            email: email,
+            degree: degree,
+            phone: document.getElementById("phone").value,
+            experience: document.getElementById("yoe").value,
+            specialization: document.getElementById("special").value,
+            caste: document.getElementById("caste").value,
+            religion: document.getElementById("religion").value,
+            subject: document.getElementById("special").value,
+            students: []   // 👈 IMPORTANT: no students initially
+        };
+
+        localStorage.setItem("staff", JSON.stringify(staff));
+
+        alert("Registration Successful!");
+
+        // 🔴 REDIRECT TO STAFF DASHBOARD
+        window.location.href = "s1.html";
+
+    } else {
+        msg.textContent = "Registration failed (Age must be 25+)";
+        msg.style.color = "red";
+        alert("Registration Failed");
+    }
+}
+</script>
+
+</body>
+</html>

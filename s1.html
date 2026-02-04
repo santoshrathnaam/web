@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Staff Dashboard</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    margin:0;
+
+    background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSje3pU0RoLzBVW54KPW-OpadyoGTrq_ZdPXw&s");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container{
+    width:1000px;
+    margin:30px auto;
+    background:#fff;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+h2{ margin-bottom:5px; }
+
+input{
+    padding:6px;
+    width:70px;
+}
+
+button{
+    padding:6px 10px;
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.present{ background:#16a34a; }
+.absent{ background:#dc2626; }
+
+table{
+    width:100%;
+    border-collapse:collapse;
+    margin-top:15px;
+}
+
+th,td{
+    border-bottom:1px solid #ddd;
+    padding:10px;
+    text-align:center;
+}
+
+.empty{
+    color:gray;
+    font-style:italic;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h2 id="staffName"></h2>
+    <p id="subjectName"></p>
+
+    <hr>
+
+    <h3>Add Student</h3>
+    <input type="text" id="roll" placeholder="Roll No">
+    <input type="text" id="sname" placeholder="Student Name">
+    <button onclick="addStudent()">Add Student</button>
+
+    <h3>Students List</h3>
+
+    <table id="studentTable"></table>
+
+</div>
+
+<script>
+let staff = JSON.parse(localStorage.getItem("staff"));
+if (!staff) {
+    alert("No staff registered!");
+    window.location.href = "s.html";
+}
+
+if (!staff.students) staff.students = [];
+
+document.getElementById("staffName").innerText = "Welcome " + staff.name;
+document.getElementById("subjectName").innerText = "Subject: " + staff.subject;
+
+function renderStudents(){
+    let table = document.getElementById("studentTable");
+
+    table.innerHTML = `
+        <tr>
+            <th>Roll No</th>
+            <th>Name</th>
+            <th>Attendance</th>
+            <th>Mark Attendance</th>
+            <th>Marks</th>
+            <th>Save Marks</th>
+        </tr>
+    `;
+
+    
+
+    staff.students.forEach((student, index) => {
+        table.innerHTML += `
+            <tr>
+                <td>${student.roll}</td>
+                <td>${student.name}</td>
+                <td>${student.attendance || "Not Marked"}</td>
+                <td>
+                    <button class="present" onclick="markAttendance(${index}, 'Present')">Present</button>
+                    <button class="absent" onclick="markAttendance(${index}, 'Absent')">Absent</button>
+                </td>
+                <td>
+                    <input type="number" id="marks-${index}" value="${student.marks ?? ""}">
+                </td>
+                <td>
+                    <button onclick="saveMarks(${index})">Save</button>
+                </td>
+            </tr>
+        `;
+    });
+}
+
+function addStudent(){
+    let roll = document.getElementById("roll").value.trim();
+    let name = document.getElementById("sname").value.trim();
+
+    if (!roll || !name) {
+        alert("Enter student details");
+        return;
+    }
+
+    staff.students.push({
+        roll,
+        name,
+        attendance: "",
+        marks: ""
+    });
+
+    localStorage.setItem("staff", JSON.stringify(staff));
+    renderStudents();
+
+    document.getElementById("roll").value="";
+    document.getElementById("sname").value="";
+}
+
+function markAttendance(index, status){
+    staff.students[index].attendance = status;
+    localStorage.setItem("staff", JSON.stringify(staff));
+    renderStudents();
+}
+
+function saveMarks(index){
+    let value = document.getElementById(`marks-${index}`).value;
+
+    if (value === "") {
+        alert("Enter marks");
+        return;
+    }
+
+    staff.students[index].marks = value;
+    localStorage.setItem("staff", JSON.stringify(staff));
+    alert("Marks saved ✅");
+    renderStudents();
+}
+
+renderStudents();
+</script>
+
+</body>
+</html>
